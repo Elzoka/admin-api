@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "nodemon src/index.js",
+    "start": "babel-node src/index.js",
     "lint": "eslint \"src/**/*.js\" --fix",
     "format": "prettier \"src/**/*.js\" --write",
     "test": "jest",
