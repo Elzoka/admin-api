@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["src/*"],
+      "@/*": ["src/*"]
+    },
+    "resolveJsonModule": true,
+    "target": "esnext"
+  },
+  "exclude": ["node_modules", "babel.config.js"]
+}
