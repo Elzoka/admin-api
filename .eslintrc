@@ -1,11 +1,12 @@
 {
-  "env": {
-    "es2021": true,
-    "node": true
-  },
-  "extends": ["airbnb", "plugin:import/errors", "plugin:import/warnings"],
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jest/recommended"
+  ],
   "ignorePatterns": "**/*.json",
-  "plugins": ["module-resolver", "snakecasejs", "prettier", "jsdoc"],
+  "plugins": ["module-resolver", "jest", "snakecasejs", "prettier", "jsdoc"],
   "parser": "@babel/eslint-parser",
   "settings": {
     "import/resolver": {
@@ -72,5 +73,10 @@
     "no-confusing-arrow": "off",
     "no-throw-literal": "off",
     "no-useless-return": "off"
+  },
+  "env": {
+    "es2021": true,
+    "node": true,
+    "jest/globals": true
   }
 }
