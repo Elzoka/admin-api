@@ -2,23 +2,26 @@
   "name": "admin-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "engineStrict": true,
   "engines": {
     "node": ">=12.18.3"
   },
   "scripts": {
     "dev": "nodemon src/index.js",
+    "lint": "eslint \"src/**/*.js\" --fix",
+    "format": "prettier \"src/**/*.js\" --write",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "mahmoudelzoka@gmail.com",
   "license": "ISC",
   "dependencies": {
     "@babel/core": "^7.15.0",
-    "@babel/node": "^7.14.9",
     "@babel/eslint-parser": "^7.15.0",
+    "@babel/node": "^7.14.9",
     "@babel/preset-env": "^7.15.0",
     "babel-node": "0.0.1-security",
     "babel-plugin-module-resolver": "^4.1.0"
@@ -37,7 +40,9 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-snakecasejs": "^2.2.0",
+    "husky": "^7.0.1",
     "jest": "^27.0.6",
+    "lint-staged": "^11.1.2",
     "nodemon": "^2.0.12",
     "prettier": "^2.3.2"
   }
