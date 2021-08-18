@@ -5,7 +5,7 @@
   },
   "extends": ["airbnb", "plugin:import/errors", "plugin:import/warnings"],
   "ignorePatterns": "**/*.json",
-  "plugins": ["module-resolver", "snakecasejs", "jsdoc"],
+  "plugins": ["module-resolver", "snakecasejs", "prettier", "jsdoc"],
   "parser": "@babel/eslint-parser",
   "settings": {
     "import/resolver": {
