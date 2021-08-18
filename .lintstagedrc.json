@@ -1,4 +1,4 @@
 {
-  "*.js": ["npm run format", "npm run lint", "npm run test"],
-  "*.{json,md}": "npm run format"
+  "src/**/*.js": ["npm run format", "npm run lint", "npm run test"],
+  "src/**/*.{json,md}": "npm run format"
 }
