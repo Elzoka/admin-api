@@ -226,7 +226,7 @@ export async function listing(
   });
 
   const [count, results] = await Promise.all([
-    Model.count(query),
+    Model.countDocuments(query),
     Model.find(query, null, options),
   ]);
 
