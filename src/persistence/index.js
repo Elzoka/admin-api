@@ -105,19 +105,29 @@ export async function update_object(
     throw errors.invalid_model({ model_name });
   }
 
-  // TODO: validate update body
+  try {
+    // TODO: validate update body
 
-  logger.info(`start updating ${Model.name} with id ${id}`);
+    logger.info(`start updating ${Model.name} with id ${id}`);
 
-  const updated_object = await Model.findByIdAndUpdate(id, body, options);
+    const updated_object = await Model.findByIdAndUpdate(id, body, options);
 
-  if (!updated_object) {
-    throw errors.not_found();
+    if (!updated_object) {
+      throw errors.not_found();
+    }
+
+    logger.info(`${Model.name} with id ${id} has been updated successfully`);
+
+    return updated_object;
+  } catch (err) {
+    // manage duplicate error
+    if (err && err.code === 11000) {
+      throw errors.duplicate_key();
+    }
+
+    // if not duplicate error throw the original one
+    throw err;
   }
-
-  logger.info(`${Model.name} with id ${id} has been updated successfully`);
-
-  return updated_object;
 }
 
 /**
