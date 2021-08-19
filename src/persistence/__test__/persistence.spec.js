@@ -26,7 +26,7 @@ function generate_admin_object(defaults = {}) {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
-    username: faker.internet.userName(),
+    username: faker.random.word(),
     password: faker.internet.password(),
     ...defaults,
   };
@@ -61,6 +61,15 @@ describe("persistence", () => {
       await expect(create_object(model_name, {})).rejects.toEqual(
         errors.invalid_model({ model_name })
       );
+    });
+
+    test("validation", async () => {
+      const fake_admin = generate_admin_object();
+
+      const { data, ...err } = errors.validation_error();
+      await expect(
+        create_object("admin", { ...fake_admin, password: "5" })
+      ).rejects.toEqual(expect.objectContaining(err));
     });
 
     test("duplicate error", async () => {
@@ -101,6 +110,16 @@ describe("persistence", () => {
         update_object("admin", { id: random_id, ...update_body })
       ).rejects.toEqual(errors.not_found());
     });
+
+    test("validation", async () => {
+      const fake_admin = generate_admin_object();
+
+      const { data, ...err } = errors.validation_error();
+      await expect(
+        update_object("admin", { ...fake_admin, password: "5" })
+      ).rejects.toEqual(expect.objectContaining(err));
+    });
+
     test("success", async () => {
       const fake_admin = generate_admin_object();
       /** @type {Admin} */
