@@ -1,10 +1,10 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import helmet from "helmet";
+import config from "@/config";
 
-// temporary until implementing config module
-dotenv.config();
+// Constants
+const { port, host } = config;
 
 // App
 const app = express();
@@ -17,7 +17,6 @@ app.use(helmet()); // setting various header for security purposes
 // Health Check
 app.get("/healthcheck", (_, res) => res.status(200).end());
 
-const { HOST, PORT } = process.env;
-app.listen(PORT, () => {
-  console.log(`running on http://${HOST}:${PORT}`);
+app.listen(port, () => {
+  console.log(`running on http://${host}:${port}`);
 });
