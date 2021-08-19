@@ -7,7 +7,7 @@ import errors from "@/errors";
  * @returns {void}
  */
 
-function log_uncaught_error(err) {
+export function log_uncaught_error(err) {
   logger.error("An unknown error occurred", {
     stack: err.stack,
     message: err.message,
@@ -32,6 +32,3 @@ export default function error_handler(err, _req, res, next) {
 
   next();
 }
-
-process.on("uncaughtException", log_uncaught_error);
-process.on("unhandledRejection", log_uncaught_error);
