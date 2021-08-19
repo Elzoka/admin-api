@@ -10,6 +10,11 @@ import { ModelName } from "@/persistence";
  * @param {Object} [options]
  * @returns {ValidationResult}
  */
-export default function validate(model_name, mode, body, options = {}) {
+export default function validate(
+  model_name,
+  mode,
+  body,
+  options = { stripUnknown: true }
+) {
   return validators[model_name][mode].validate(body, options);
 }

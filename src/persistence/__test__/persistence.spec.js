@@ -13,6 +13,7 @@ import {
   create_object,
   delete_object,
   get_object,
+  listing,
   truncate_collection,
   truncate_database,
   update_object,
@@ -20,13 +21,14 @@ import {
 import { init_database } from "@/db";
 import * as errors from "@/errors/errors";
 import { Admin } from "@/models/admin";
+import _ from "lodash";
 
 function generate_admin_object(defaults = {}) {
   return {
     first_name: faker.name.findName(),
     last_name: faker.name.lastName(),
     email: faker.internet.email(),
-    username: faker.random.word(),
+    username: faker.random.alphaNumeric(15),
     password: faker.internet.password(),
     ...defaults,
   };
@@ -46,6 +48,14 @@ afterAll(async () => {
 beforeEach(async () => {
   await truncate_collection("admin");
 });
+
+function seed_admins(count = 50) {
+  const admins = _.range(count).map(() =>
+    create_object("admin", generate_admin_object())
+  );
+  // ignore bulk creations for now
+  return Promise.all(admins);
+}
 
 describe("persistence", () => {
   describe("create_object", () => {
@@ -156,6 +166,50 @@ describe("persistence", () => {
       await expect(get_object("admin", new_admin.id)).rejects.toEqual(
         errors.not_found()
       );
+    });
+  });
+  describe("listing", () => {
+    test("search", async () => {
+      const size = 50;
+      const admins = await seed_admins(size);
+
+      const { pagination, results } = await listing("admin", {
+        search: admins[_.random(0, size)].email,
+        page_size: 1,
+      });
+
+      expect(pagination.count).toBeGreaterThanOrEqual(1);
+      expect(results.length).toBe(1);
+
+      const { pagination: new_pagination, results: new_results } =
+        await listing("admin", {
+          search: admins[_.random(0, size)].username,
+          page_size: 1,
+        });
+
+      expect(new_pagination.count).toBeGreaterThanOrEqual(1);
+      expect(new_results.length).toBe(1);
+    });
+    test("filters", async () => {
+      const size = 50;
+      const admins = await seed_admins(size);
+
+      const { pagination, results } = await listing("admin", {
+        filters: { email: admins[_.random(0, size)].email },
+        page_size: 1,
+      });
+
+      expect(pagination.count).toBe(1);
+      expect(results.length).toBe(1);
+
+      const { pagination: new_pagination, results: new_results } =
+        await listing("admin", {
+          filters: { username: admins[_.random(0, size)].username },
+          page_size: 1,
+        });
+
+      expect(new_pagination.count).toBe(1);
+      expect(new_results.length).toBe(1);
     });
   });
 });

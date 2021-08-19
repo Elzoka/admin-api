@@ -49,4 +49,6 @@ const admin_schema = new Schema(
 /** @type {Model<Admin>} */
 const admin = mongoose.model("Admin", admin_schema);
 
+admin.searchable_attributes = ["email", "username", "slug"];
+
 export default admin;

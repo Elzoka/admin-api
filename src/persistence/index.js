@@ -1,9 +1,11 @@
 /* eslint-disable import/namespace */
-import { QueryOptions, SaveOptions } from "mongoose";
+import mongoose, { QueryOptions, SaveOptions, Document } from "mongoose";
+import _ from "lodash";
 import logger from "@/logger";
 import errors from "@/errors";
 import * as models from "@/models";
 import { validate } from "@/validation";
+import config from "@/config";
 
 /**
  * @typedef {Object} IBody
@@ -154,8 +156,6 @@ export async function delete_object(model_name, id, options = { lean: true }) {
     throw errors.invalid_model({ model_name });
   }
 
-  // TODO: validate update body
-
   logger.info(`start deleting ${Model.name} with id ${id}`);
 
   const deleted_object = await Model.findByIdAndDelete(id, options);
@@ -167,6 +167,73 @@ export async function delete_object(model_name, id, options = { lean: true }) {
   logger.info(`${Model.name} with id ${id} has been deleted successfully`);
 
   return deleted_object;
+}
+
+/**
+ *
+ * @typedef {Object} SearchBody
+ * @property {string} search
+ * @property {Object} filters
+ * @property {number} page_number
+ * @property {number} page_size
+ *
+ * @typedef {Object} IPagination
+ * @property {number} count
+ * @property {} page_number
+ * @property {} page_size
+ *
+ * @typedef {Object} SearchResults
+ * @property {IPagination} pagination
+ * @property {Document[]|Object[]} results
+ *
+ *
+ * @param {ModelName} model_name
+ * @param {SearchBody} param1
+ * @param {QueryOptions} options
+ * @returns {SearchResults}
+ */
+export async function listing(
+  model_name,
+  { search, filters, page_number = 1, page_size = config.default_page_size },
+  options = { lean: true }
+) {
+  logger.info("persistence.listing");
+
+  /** @type {mongoose.Model} */
+  const Model = models[model_name];
+
+  if (!Model) {
+    throw errors.invalid_model({ model_name });
+  }
+
+  logger.info(`start listing ${Model.name} with filters`, { search, filters });
+
+  const search_query = Model.searchable_attributes.map((attr) => ({
+    [attr]: {
+      $regex: new RegExp("^(.*)?" + _.escapeRegExp(search) + "(.*)?", "i"),
+    },
+  }));
+
+  const query = {
+    $or: search_query,
+    ...filters,
+  };
+
+  page_size = Number(page_size) || 10;
+  options = _.assign(options, {
+    skip: (page_number - 1) * page_size,
+    limit: page_size,
+  });
+
+  const [count, results] = await Promise.all([
+    Model.count(query),
+    Model.find(query, null, options),
+  ]);
+
+  return {
+    pagination: { count, page_number, page_size },
+    results,
+  };
 }
 
 /**
