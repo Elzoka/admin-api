@@ -4,6 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import "express-async-errors";
 import error_handler from "@/errors/error_handler";
+import modelController from "@/controller/model";
 
 // App
 const app = express();
@@ -17,6 +18,8 @@ app.use(helmet()); // setting various header for security purposes
 app.get("/healthcheck", (_, res) => {
   res.status(200).end();
 });
+
+app.use("/:model_name", modelController);
 
 // Error handler
 app.use(error_handler);
