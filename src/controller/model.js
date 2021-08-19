@@ -10,6 +10,12 @@ import logger from "@/logger";
 
 const router = express.Router({ mergeParams: true });
 
+router.get("/", async (req, res, next) => {
+  const results = await listing(req.params.model_name, req.body);
+
+  res.json(results);
+});
+
 router.get("/:id", async (req, res, next) => {
   const object = await get_object(req.params.model_name, req.params.id);
 
