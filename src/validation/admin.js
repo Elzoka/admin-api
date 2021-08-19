@@ -36,3 +36,14 @@ export const update = Joi.object({
   avatar: Joi.link(),
   status: Joi.string().valid("active", "inactive").default("active"),
 });
+
+export const listing = Joi.object({
+  search: Joi.string().min(1).max(70).allow(""),
+  filters: Joi.object({
+    first_name: Joi.string(),
+    last_name: Joi.string(),
+    email: Joi.string(),
+    username: Joi.string(),
+    status: Joi.string().valid("active", "inactive").default("active"),
+  }),
+});
