@@ -3,12 +3,8 @@ import config from "@/config";
 import logger from "@/logger";
 
 /**
- * @callback CleanupFunc
- * @param {boolean} [force]
- * @returns {Promise<void>}
- *
  * @param {string} uri
- * @returns {Promise<CleanupFunc>}
+ * @returns {Promise<mongoose.Connection>}
  */
 export async function init_database(uri) {
   if (config.mongodb_debug) {
@@ -24,7 +20,8 @@ export async function init_database(uri) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
   });
 
-  return connection.close;
+  return connection;
 }

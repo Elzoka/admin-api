@@ -1,12 +1,7 @@
-import mongoose, {
-  Schema,
-  Model,
-  Document,
-  DocumentDefinition,
-} from "mongoose";
+import mongoose, { Schema, Model, Document } from "mongoose";
 
 /**
- * @typedef {Object} UserModel
+ * @typedef {Object} AdminModel
  * @property {string} first_name
  * @property {string} last_name
  * @property {string} email
@@ -16,10 +11,10 @@ import mongoose, {
  * @property {string} status
  * @property {string} avatar
  *
- * @typedef {UserModel & Document} User
+ * @typedef {AdminModel & Document} Admin
  */
 
-/** @type {Schema<User>} */
+/** @type {Schema<Admin>} */
 const admin_schema = new Schema(
   {
     first_name: String,
@@ -51,7 +46,7 @@ const admin_schema = new Schema(
   { timestamps: true }
 );
 
-/** @type {Model<User>} */
-const Admin = mongoose.model("Admin", admin_schema);
+/** @type {Model<Admin>} */
+const admin = mongoose.model("Admin", admin_schema);
 
-export default Admin;
+export default admin;

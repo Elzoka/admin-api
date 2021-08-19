@@ -6,6 +6,11 @@ import dotenv from "dotenv";
  * @typedef {Object} IConfig
  * @property {string} host Network interface to listen on
  * @property {number} port The port the project runs on locally
+ * @property {string} log_level Logger log level
+ * @property {string} service The running service
+ * @property {boolean} mongodb_debug debug level
+ * @property {string} mongodb_uri Database uri
+ * @property {string} test_mongodb_uri Testing Database uri
  */
 
 dotenv.config();
