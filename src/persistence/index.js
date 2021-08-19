@@ -190,7 +190,7 @@ export async function delete_object(model_name, id, options = { lean: true }) {
  * @param {ModelName} model_name
  * @param {SearchBody} param1
  * @param {QueryOptions} options
- * @returns {SearchResults}
+ * @returns {Promise<SearchResults>}
  */
 export async function listing(
   model_name,
