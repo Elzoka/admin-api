@@ -5,6 +5,8 @@ import helmet from "helmet";
 import "express-async-errors";
 import error_handler from "@/errors/error_handler";
 import modelController from "@/controller/model";
+import authController from "@/controller/auth";
+import auth_middleware from "middleware/auth_middleware";
 
 // App
 const app = express();
@@ -18,6 +20,10 @@ app.use(helmet()); // setting various header for security purposes
 app.get("/healthcheck", (_, res) => {
   res.status(200).end();
 });
+
+app.use("/auth", authController);
+
+app.use(auth_middleware);
 
 app.use("/:model_name", modelController);
 

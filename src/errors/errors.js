@@ -30,3 +30,7 @@ export const not_found = create_error(404, "not_found");
 export const duplicate_key = create_error(409, "duplicate_key");
 export const invalid_model = create_error(400, "invalid_model");
 export const validation_error = create_error(400, "validation_error");
+export const user_does_not_exist = create_error(400, "user_does_not_exist");
+export const invalid_credentials = create_error(400, "invalid_credentials");
+export const expired_token = create_error(401, "expired_token");
+export const unauthorized = create_error(401, "unauthorized");

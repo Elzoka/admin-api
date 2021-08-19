@@ -12,6 +12,7 @@ import dotenv from "dotenv";
  * @property {string} mongodb_uri Database uri
  * @property {string} test_mongodb_uri Testing Database uri
  * @property {number} default_page_size Pagination default page size
+ * @property {string} jsonwebtoken_secret JWT secret
  */
 
 dotenv.config();

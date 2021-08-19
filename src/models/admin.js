@@ -1,4 +1,5 @@
 import mongoose, { Schema, Model, Document } from "mongoose";
+import password from "utils/password";
 
 /**
  * @typedef {Object} AdminModel
@@ -45,6 +46,33 @@ const admin_schema = new Schema(
   },
   { timestamps: true }
 );
+
+admin_schema.pre("save", async function hash_password(next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+
+  // if password is modified hash it
+  try {
+    const hashed_password = await password.hash(this.password);
+
+    this.password = hashed_password;
+    next();
+  } catch (e) {
+    next(e);
+  }
+});
+
+admin_schema.pre("findOneAndUpdate", async function has_password(...data) {
+  if (this._update.password) {
+    this._update.password = await password.hash(this._update.password);
+  }
+});
+
+admin_schema.post("save", function remove_password() {
+  // unselect password specially on create
+  this.password = undefined;
+});
 
 /** @type {Model<Admin>} */
 const admin = mongoose.model("Admin", admin_schema);
