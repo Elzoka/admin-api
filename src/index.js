@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
+import logger from "@/logger";
 import config from "@/config";
 
 // Constants
@@ -18,5 +19,5 @@ app.use(helmet()); // setting various header for security purposes
 app.get("/healthcheck", (_, res) => res.status(200).end());
 
 app.listen(port, () => {
-  console.log(`running on http://${host}:${port}`);
+  logger.info(`running on http://${host}:${port}`);
 });
