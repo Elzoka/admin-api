@@ -56,6 +56,13 @@ describe("persistence", () => {
       expect(new_admin).toEqual(expect.objectContaining(fake_admin));
     });
 
+    test("invalid model", async () => {
+      const model_name = faker.database.collation();
+      await expect(create_object(model_name, {})).rejects.toEqual(
+        errors.invalid_model({ model_name })
+      );
+    });
+
     test("duplicate error", async () => {
       const fake_admin = generate_admin_object();
 
