@@ -72,7 +72,8 @@
     "snakecasejs/snakecasejs": "off",
     "no-confusing-arrow": "off",
     "no-throw-literal": "off",
-    "no-useless-return": "off"
+    "no-useless-return": "off",
+    "import/default": "off"
   },
   "env": {
     "es2021": true,
