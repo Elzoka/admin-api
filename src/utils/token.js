@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import config from "@/config";
+import errors from "errors";
 
 export default {
   /**
@@ -17,7 +18,14 @@ export default {
   verify: (token) => {
     return new Promise((resolve, reject) => {
       jwt.verify(token, config.jsonwebtoken_secret, (err, decoded) => {
-        if (err) return reject(err);
+        if (err) {
+          // check if expired
+          if (err.name === "TokenExpiredError") {
+            throw errors.expired_token();
+          }
+
+          throw errors.unauthorized();
+        }
 
         resolve(decoded);
       });
