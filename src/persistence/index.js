@@ -3,6 +3,7 @@ import { QueryOptions, SaveOptions } from "mongoose";
 import logger from "@/logger";
 import errors from "@/errors";
 import * as models from "@/models";
+import { validate } from "@/validation";
 
 /**
  * @typedef {Object} IBody
@@ -26,7 +27,11 @@ export async function create_object(model_name, data, options = {}) {
     throw errors.invalid_model({ model_name });
   }
 
-  // TODO: validate body
+  const { error } = validate(model_name, "create", data);
+
+  if (error) {
+    throw errors.validation_error({ message: error.message });
+  }
 
   logger.info(`start creating ${Model.name}`);
 
@@ -105,7 +110,11 @@ export async function update_object(
     throw errors.invalid_model({ model_name });
   }
 
-  // TODO: validate update body
+  const { error } = validate(model_name, "update", body);
+
+  if (error) {
+    throw errors.validation_error(error);
+  }
 
   logger.info(`start updating ${Model.name} with id ${id}`);
 
