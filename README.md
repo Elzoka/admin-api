@@ -2,6 +2,8 @@
 
 A simple RESTful API to manage single database collection (Admin).
 
+> [**Documentation**](https://documenter.getpostman.com/view/5430527/TzzBqFnG)
+
 ## Task
 
 ---
