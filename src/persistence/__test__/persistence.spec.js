@@ -63,7 +63,8 @@ describe("persistence", () => {
       const fake_admin = generate_admin_object();
       const new_admin = await create_object("admin", fake_admin);
 
-      expect(new_admin).toEqual(expect.objectContaining(fake_admin));
+      const { password, ...data } = fake_admin;
+      expect(new_admin).toEqual(expect.objectContaining(data));
     });
 
     test("invalid model", async () => {
@@ -160,7 +161,8 @@ describe("persistence", () => {
 
       // delete admin
       const deleted_admin = await delete_object("admin", new_admin.id);
-      expect(deleted_admin).toEqual(new_admin.toJSON());
+      const { password, ...data } = deleted_admin;
+      expect(data).toEqual(new_admin.toJSON());
 
       // check that it's deleted
       await expect(get_object("admin", new_admin.id)).rejects.toEqual(
