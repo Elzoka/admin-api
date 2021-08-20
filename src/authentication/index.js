@@ -10,7 +10,7 @@ export default {
    * @param {string} email
    * @param {string} password
    */
-  login: async (email, pass) => {
+  login: async (email, pass = "") => {
     // check if user exists
     const {
       pagination: { count },
