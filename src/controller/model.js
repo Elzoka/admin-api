@@ -26,7 +26,7 @@ router.get("/:id", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   const object = await create_object(req.params.model_name, req.body);
   logger.info("created object", { object });
-  res.json(object);
+  res.status(201).json(object);
 });
 
 router.patch("/:id", async (req, res, next) => {
