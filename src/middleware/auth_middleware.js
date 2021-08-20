@@ -13,7 +13,7 @@ export default async function auth_middleware(req, res, next) {
   const payload = await token.verify(token_string);
 
   // check user exists (it will throw by default)
-  const user = await get_object("admin", payload.id, { id: true });
+  const user = await get_object("admin", payload.id, { email: true });
 
   // append user to req
   req.user = user;
