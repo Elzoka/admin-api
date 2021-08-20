@@ -7,7 +7,8 @@ import error_handler from "@/errors/error_handler";
 import model_controller from "@/controller/model";
 import auth_controller from "@/controller/auth";
 import profile_controller from "@/controller/profile";
-import auth_middleware from "middleware/auth_middleware";
+import admin_password_controller from "controller/admin_password";
+import auth_middleware from "@/middleware/auth_middleware";
 
 // App
 const app = express();
@@ -23,6 +24,7 @@ app.get("/healthcheck", (_, res) => {
 });
 
 app.use("/auth", auth_controller);
+app.use("/admin/password", admin_password_controller);
 
 app.use(auth_middleware);
 
