@@ -7,7 +7,6 @@ import password from "utils/password";
  * @property {string} last_name
  * @property {string} email
  * @property {string} username
- * @property {string} slug
  * @property {string} [password]
  * @property {string} status
  * @property {string} avatar
@@ -29,11 +28,6 @@ const admin_schema = new Schema(
       type: String,
       index: true,
       unique: true,
-    },
-    slug: {
-      // generated from username, so it would be unique as well,
-      type: String,
-      index: true,
     },
     avatar: {
       type: String,
@@ -77,6 +71,6 @@ admin_schema.post("save", function remove_password() {
 /** @type {Model<Admin>} */
 const admin = mongoose.model("Admin", admin_schema);
 
-admin.searchable_attributes = ["email", "username", "slug"];
+admin.searchable_attributes = ["email", "username"];
 
 export default admin;
