@@ -4,8 +4,9 @@ import cors from "cors";
 import helmet from "helmet";
 import "express-async-errors";
 import error_handler from "@/errors/error_handler";
-import modelController from "@/controller/model";
-import authController from "@/controller/auth";
+import model_controller from "@/controller/model";
+import auth_controller from "@/controller/auth";
+import profile_controller from "@/controller/profile";
 import auth_middleware from "middleware/auth_middleware";
 
 // App
@@ -21,11 +22,12 @@ app.get("/healthcheck", (_, res) => {
   res.status(200).end();
 });
 
-app.use("/auth", authController);
+app.use("/auth", auth_controller);
 
 app.use(auth_middleware);
 
-app.use("/:model_name", modelController);
+app.use("/profile", profile_controller);
+app.use("/:model_name", model_controller);
 
 // Error handler
 app.use(error_handler);

@@ -127,7 +127,11 @@ describe("persistence", () => {
 
       const { data, ...err } = errors.validation_error();
       await expect(
-        update_object("admin", { ...fake_admin, password: "5" })
+        update_object("admin", {
+          ...fake_admin,
+          mode: "update_password",
+          password: "5",
+        })
       ).rejects.toEqual(expect.objectContaining(err));
     });
 
