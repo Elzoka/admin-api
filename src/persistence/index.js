@@ -10,7 +10,7 @@ import config from "@/config";
 /**
  * @typedef {Object} IBody
  * @property {string} id
- * @property {"create"|"update"|"update_password"} mode
+ * @property {"create"|"update"|"update_password"|"update_avatar"} mode
  *
  * @typedef {'admin'} ModelName
  */

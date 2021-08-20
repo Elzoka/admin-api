@@ -1,6 +1,7 @@
 import express from "express";
 import { get_object, update_object } from "@/persistence";
-import authentication from "authentication";
+import authentication from "@/authentication";
+import upload from "@/upload";
 
 const router = express.Router();
 
@@ -31,6 +32,18 @@ router.patch("/password", async (req, res, next) => {
   });
 
   res.status(200).end();
+});
+
+router.patch("/avatar", async (req, res, next) => {
+  const avatar_url = await upload(req);
+
+  const updated_object = await update_object("admin", {
+    id: req.user._id,
+    avatar: avatar_url,
+    mode: "update_avatar",
+  });
+
+  res.status(200).json(updated_object);
 });
 
 export default router;
