@@ -29,12 +29,12 @@ export const update = Joi.object({
     tlds: { allow: ["com", "net"] },
   }),
   username: Joi.string().alphanum().min(3).max(30),
-  password: Joi.string()
-    // .pattern(password_pattern)
-    .min(3)
-    .max(100),
   avatar: Joi.link(),
   status: Joi.string().valid("active", "inactive").default("active"),
+});
+
+export const update_password = Joi.object({
+  password: Joi.string().min(3).max(100).required(),
 });
 
 export const listing = Joi.object({
@@ -44,6 +44,6 @@ export const listing = Joi.object({
     last_name: Joi.string(),
     email: Joi.string(),
     username: Joi.string(),
-    status: Joi.string().valid("active", "inactive").default("active"),
+    status: Joi.string().valid("active", "inactive"),
   }),
 });

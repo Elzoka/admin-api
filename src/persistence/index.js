@@ -10,6 +10,7 @@ import config from "@/config";
 /**
  * @typedef {Object} IBody
  * @property {string} id
+ * @property {"create"|"update"|"update_password"} mode
  *
  * @typedef {'admin'} ModelName
  */
@@ -101,7 +102,7 @@ export async function get_object(
  */
 export async function update_object(
   model_name,
-  { id, ...body },
+  { id, mode = "update", ...body },
   options = { new: true, lean: true }
 ) {
   logger.info("persistence.update_object");
@@ -113,7 +114,7 @@ export async function update_object(
   }
 
   try {
-    const { error } = validate(model_name, "update", body);
+    const { error } = validate(model_name, mode, body);
 
     if (error) {
       throw errors.validation_error(error);
