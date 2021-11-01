@@ -11,7 +11,7 @@ import logger from "@/logger";
 const router = express.Router({ mergeParams: true });
 
 router.get("/", async (req, res, next) => {
-  const results = await listing(req.params.model_name, req.body);
+  const results = await listing(req.params.model_name, req.query);
 
   res.json(results);
 });
