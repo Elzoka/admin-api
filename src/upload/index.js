@@ -15,6 +15,10 @@ export default function upload(req) {
     const form = new Formidable();
 
     form.parse(req, (err, fields, files) => {
+      if (err) {
+        throw errors.unable_to_upload_image();
+      }
+
       cloudinary.uploader.upload(
         files.file.path,
         {
